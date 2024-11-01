@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Prediction Result</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            max-width: 800px;
+            width: 100%;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            font-size: 28px;
+            color: #4CAF50;
+        }
+        h2 {
+            font-size: 22px;
+            color: #333;
+            margin-top: 20px;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 5px;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .back-link:hover {
+            background-color: #45a049;
+        }
+        .score-indicator-container {
+            position: relative;
+            height: 50px;
+            width: 100%;
+            margin-top: 20px;
+        }
+        .score-indicator-bar {
+            height: 20px;
+            width: 100%;
+            background: linear-gradient(to right, green, yellow, red);
+            border-radius: 10px;
+            position: relative;
+        }
+        .indicator-arrow {
+            position: absolute;
+            top: -20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+        .indicator-arrow:after {
+            content: '▼';
+            position: absolute;
+            top: 5px;
+            font-size: 18px;
+            color: #333;
+        }
+        .score-labels {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+        .score-percentage {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Prediction Results</h1>
+        
+        <!-- AFib Risk Survival Curve Graph -->
+        <div class="section">
+            <h2>AFib Risk Survival Curve</h2>
+            <canvas id="afibChart"></canvas>
+        </div>
+
+        <!-- Age Estimate -->
+        <div class="section">
+            <h2>Age Estimate</h2>
+            <canvas id="ageEstimateChart"></canvas>
+        </div>
+
+        <!-- AFib Dummy Score with Gradient Bar and Arrow -->
+        <div class="section">
+            <h2>AFib Dummy Score</h2>
+            <div class="score-indicator-container">
+                <div class="score-indicator-bar"></div>
+                <div id="indicatorArrow" class="indicator-arrow"></div>
+            </div>
+            <div class="score-labels">
+                <span>Low (-1)</span>
+                <span>Medium (0)</span>
+                <span>High (+1)</span>
+            </div>
+            <div id="scorePercentage" class="score-percentage"></div>
+        </div>
+
+        <!-- Sex Prediction -->
+        <div class="section">
+            <h2>Sex Prediction</h2>
+            <canvas id="sexPredictionChart"></canvas>
+        </div>
+
+        <a href="/" class="back-link">Back</a>
+    </div>
+
+    <!-- Hidden elements to hold data attributes -->
+    <div id="ageEstimateData" 
+         data-class1="{{ predictions.age_estimate[0][0]  }}" 
+         data-class2="{{ predictions.age_estimate[0][1]  }}" 
+         style="display:none;"></div>
+         
+    <div id="sexPredictionData" 
+         data-male="{{ predictions.sex_dummy[0][0]  }}" 
+         data-female="{{ predictions.sex_dummy[0][1]  }}" 
+         style="display:none;"></div>
+
+    <!-- Chart.js Script -->
+    <script> 
+        // AFib Risk Chart
+        const afibRiskData = JSON.parse('{{ predictions.afib_risk[0] | tojson | safe }}');
+        const afibCtx = document.getElementById('afibChart').getContext('2d');
+        new Chart(afibCtx, {
+            type: 'line',
+            data: {
+                labels: Array.from({length: afibRiskData.length}, (_, i) => `Interval ${i + 1}`),
+                datasets: [{
+                    label: 'Probability of Remaining AFib-Free',
+                    data: afibRiskData,
+                    borderColor: '#4CAF50',
+                    fill: false,
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 1
+                    }
+                }
+            }
+        });
+
+        // Get Age Estimate Data from data attributes
+        const ageEstimateElement = document.getElementById('ageEstimateData');
+        const ageEstimateData = [
+            parseFloat(ageEstimateElement.dataset.class1),
+            parseFloat(ageEstimateElement.dataset.class2)
+        ];
+
+        const ageEstimateCtx = document.getElementById('ageEstimateChart').getContext('2d');
+        new Chart(ageEstimateCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Old', 'Young'],
+                datasets: [{
+                    label: 'Age Estimate Probability',
+                    data: ageEstimateData,
+                    backgroundColor: ['#4CAF50', '#4CAF50']
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 1
+                    }
+                }
+            }
+        });
+
+        // Get Sex Prediction Data from data attributes
+        const sexPredictionElement = document.getElementById('sexPredictionData');
+        const sexPredictionData = [
+            parseFloat(sexPredictionElement.dataset.male),
+            parseFloat(sexPredictionElement.dataset.female)
+        ];
+
+        const sexPredictionCtx = document.getElementById('sexPredictionChart').getContext('2d');
+        new Chart(sexPredictionCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Male', 'Female'],
+                datasets: [{
+                    label: 'Sex Prediction Probability',
+                    data: sexPredictionData,
+                    backgroundColor: ['#4CAF50', '#4CAF50']
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 1
+                    }
+                }
+            }
+        });
+
+        // AFib Dummy Score Gradient Bar with Arrow Indicator (Direct Range -1 to +1)
+        const afibScore = parseFloat('{{ predictions.afib_dummy[0][0] }}'); 
+
+        // Calculate the left position based on score from -1 to +1 without normalization
+        const arrowPosition = ((afibScore + 1) / 2) * 100;
+
+        // Place the indicator arrow and percentage at the appropriate position
+        const indicatorArrow = document.getElementById('indicatorArrow');
+        const scorePercentageDiv = document.getElementById('scorePercentage');
+
+        // Set arrow position based on raw score in -1 to +1 range
+        indicatorArrow.style.left = `calc(${arrowPosition}% - 10px)`; 
+        scorePercentageDiv.innerHTML = `<div></div><div>${(afibScore).toFixed(4)}</div>`;
+    </script>
+</body>
+</html>

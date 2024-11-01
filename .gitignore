@@ -12,3 +12,7 @@ ml4h.egg-info/*
 docker/terra_image/*/**
 build/
 dist/
+model_zoo/ECG2AF/ecg_5000_survival_curve_af_quadruple_task_mgh_v2021_05_21.h5
+fake_0.hd5
+
+
