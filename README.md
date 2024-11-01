@@ -94,7 +94,7 @@ az login
 ### Step 2: Create a Resource Group
 
 ```bash
-az group create --name myResourceGroup --location eastus
+az group create --name myResourceGroup --location westus
 ```
 
 ### Step 3: Create an Azure Container Registry (ACR)
