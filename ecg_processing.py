@@ -42,7 +42,7 @@ def predict_risk(ecg, model):
         "age_estimate": predictions[1].numpy().tolist(),
         # AFib dummy score  
         "afib_dummy": predictions[2].numpy().tolist(),
-        # Sex prediction probabilities    
+        # Sex prediction probabilitiess    
         "sex_dummy": predictions[3].numpy().tolist()      
     }
 

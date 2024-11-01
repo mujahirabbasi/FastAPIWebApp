@@ -86,6 +86,9 @@ docker run -p 8000:8000 my-fastapi-ecg-app
 
 ## Deploying to Azure
 
+### Deployment Workflow
+Create Docker Image ➔ Push Image to Azure Container Registry ➔ Host on Azure App Service
+
 ### Step 1: Log in to Azure
 
 ```bash
