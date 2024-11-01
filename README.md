@@ -134,7 +134,7 @@ FastAPI’s asynchronous request handling improves response times and enables sc
 
 ## Scalability
 
-To scale this solution for analyzing a larger data volume and supporting more users, I would use three main strategies. First, implement asynchronous processing with task queues  to handle file uploads and model inference concurrently, allowing large batches to be processed without blocking. Second, utilize cloud-based scaling by deploying the application on a cloud platform like AWS or Google Cloud, enabling horizontal scaling with multiple instances to distribute the workload based on demand. 
+To scale this solution for analyzing a larger data volume and supporting more users, we can use two main strategies. First, implement asynchronous processing to handle file uploads and model inference concurrently, allowing large batches to be processed without blocking. Second, utilize cloud-based scaling by deploying the application on a cloud platform like AWS or Google Cloud, enabling horizontal scaling with multiple instances to distribute the workload based on demand. 
 
 ## Tools Used
 To develop portions of the HTML, CSS, and JavaScript for this application, I used ChatGPT and Gemini to accelerate development and enhance code quality.
