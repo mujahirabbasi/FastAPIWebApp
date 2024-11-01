@@ -1,7 +1,3 @@
-Here’s the full `README.md` file based on the information you provided:
-
----
-
 # FastAPI Web Application
 
 This FastAPI web application can be run locally using Docker. This guide will walk you through the steps to get started, including running the Docker container, installing dependencies, and starting the application.
