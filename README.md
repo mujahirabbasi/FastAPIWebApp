@@ -114,7 +114,6 @@ az acr login --name myContainerRegistry
 docker build -t my-fastapi-ecg-app .
 docker tag my-fastapi-ecg-app mycontainerregistry.azurecr.io/my-fastapi-ecg-app:latest
 docker push mycontainerregistry.azurecr.io/my-fastapi-ecg-app:latest
-az acr build --registry fastapiwebappcontainerregistry --image my-fastapi-ecg-app:latest .
 ```
 
 ### Step 5: Create App Service Plan and Web App
