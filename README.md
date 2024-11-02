@@ -1,6 +1,6 @@
 # FastAPI Web Application
 
-This FastAPI web application can be run locally using Docker. This guide will walk you through the steps to get started, including running the Docker container, installing dependencies, and starting the application.
+This FastAPI web application can be run locally using Docker. The following steps needs yo be followed in order to run the Docker container, install dependencies, and start the application.
 
 ## Setting up your local environment
 
