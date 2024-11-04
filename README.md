@@ -103,6 +103,7 @@ az group create --name myResourceGroup --location westus
 az acr create --resource-group myResourceGroup --name myContainerRegistry --sku Basic
 az acr login --name myContainerRegistry
 ```
+![Azure Container Registry] https://github.com/mujahirabbasi/FastAPIWebApp/blob/main/container%20_registry.png
 
 ### Step 4: Build, Tag, and Push Docker Image
 
