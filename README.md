@@ -121,12 +121,17 @@ az appservice plan create --resource-group myResourceGroup --name myAppServicePl
 az webapp create --resource-group myResourceGroup --plan myAppServicePlan --name myFastApiApp --deployment-container-image-name mycontainerregistry.azurecr.io/my-fastapi-ecg-app:latest
 az webapp config container set --name myFastApiApp --resource-group myResourceGroup --docker-custom-image-name mycontainerregistry.azurecr.io/my-fastapi-ecg-app:latest --docker-registry-server-url https://mycontainerregistry.azurecr.io
 ```
+![Azure App Service](https://raw.githubusercontent.com/mujahirabbasi/FastAPIWebApp/main/AzureAppSevice.png)
 
 ### Step 6: Set App Service to Listen on Port 8000
 
 ```bash
 az webapp config appsettings set --resource-group myResourceGroup --name myFastApiApp --settings WEBSITES_PORT=8000
 ```
+
+Once the server is running, you can access the application locally by navigating to:
+
+- **Homepage**: [https://mynewfastapiapp.azurewebsites.net/](https://mynewfastapiapp.azurewebsites.net/)
 
 ## Why FastAPI?
 
