@@ -129,9 +129,13 @@ az webapp config container set --name myFastApiApp --resource-group myResourceGr
 az webapp config appsettings set --resource-group myResourceGroup --name myFastApiApp --settings WEBSITES_PORT=8000
 ```
 
-Once the server is running, you can access the application locally by navigating to:
+Once the server is running, you can access the application on the web by navigating to:
 
 - **Homepage**: [https://mynewfastapiapp.azurewebsites.net/](https://mynewfastapiapp.azurewebsites.net/)
+
+![Azure WebApp](https://raw.githubusercontent.com/mujahirabbasi/FastAPIWebApp/main/AzureWebApp.png)
+
+> **Note**: All deployment steps in this guide are performed using the **Azure CLI**.
 
 ## Why FastAPI?
 
